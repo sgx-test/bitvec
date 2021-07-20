@@ -149,11 +149,20 @@ or the type documentation for introductory samples.
 #![cfg_attr(not(debug_assertions), deny(missing_docs))]
 #![deny(unconditional_recursion)]
 
+#![cfg_attr(all(feature = "mesalock_sgx", not(target_env = "sgx")), no_std)]
+#![cfg_attr(all(target_env = "sgx", target_vendor = "mesalock"), feature(rustc_private))]
+
+#[cfg(all(feature = "mesalock_sgx", not(target_env = "sgx")))]
+#[macro_use]
+extern crate sgx_tstd as std;
+
 #[cfg(feature = "alloc")]
 extern crate alloc;
 
 #[macro_use]
 pub mod macros;
+
+pub use std::prelude::v1::*;
 
 mod access;
 pub mod array;

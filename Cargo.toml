@@ -41,27 +41,35 @@ atomic = []
 default = [
 	"atomic",
 	"std",
+	"mesalock_sgx",
 ]
 std = [
 	"alloc",
+	"mesalock_sgx",
+]
+
+mesalock_sgx = [
+    "sgx_tstd",
 ]
 
 [dependencies]
-funty = "1"
+funty = { version = "1", git = "https://github.com/sgx-test/funty-sgx", default-futures = false, features = ["mesalock_sgx"]}
 radium = "0.3"
-wyz = "0.2"
+wyz = { branch = "0.2.0_sgx1.1.3", git = "https://github.com/sgx-test/wyz", version = "0.2", default-futures = false, features = ["mesalock_sgx"] }
+sgx_tstd = { rev = "v1.1.3", git = "https://github.com/apache/teaclave-sgx-sdk.git", optional = true }
 
 [dependencies.serde]
+git = "https://github.com/mesalock-linux/serde-sgx"
 default-features = false
 optional = true
 version = "1"
 
 # Crates required when running the test suite.
 [dev-dependencies]
-serde = "1"
-serde_json = "1"
-serde_test = "1"
-static_assertions = "1"
+#serde = "1"
+#serde_json = "1"
+#serde_test = "1"
+#static_assertions = "1"
 
 # Indicates the features that docs.rs should enable when building documentation.
 [package.metadata.docs.rs]
